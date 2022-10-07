@@ -1,0 +1,16 @@
+name: Run testcontainer
+
+on:
+  push:
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Start test nginx
+      run: docker run --rm -d -v $(shell pwd)/TestData/:/www/data -v $(shell pwd)/TestData/nginx.conf:/etc/nginx/conf.d/default.conf -p 8080:80 --name nginx-cdn-mock nginx
+    - name: verify running container
+      run: curl -v http://localhost:8080/texts/demo.json
+    - name: Stop container
+      run: docker kill nginx-cdn-mock
