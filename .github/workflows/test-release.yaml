@@ -5,6 +5,9 @@ on:
     types:
       - published
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -12,8 +15,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: create zip
-        run: zip -r ${{ github.event.repository.name }}.zip ./TestData
+        run: |
+          zip -r ${{ github.event.repository.name }}.zip ./TestData
+          sha512sum ${{ github.event.repository.name }}.zip > ${{ github.event.repository.name }}.sha512sums.txt
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          files: ${{ github.event.repository.name }}.zip
+          files: |
+            ${{ github.event.repository.name }}.zip
+            ${{ github.event.repository.name }}.sha512sums.txt
