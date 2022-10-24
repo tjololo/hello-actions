@@ -17,6 +17,6 @@ jobs:
           rm -rf /tmp/release
           mkdir /tmp/release
           rsync . -rv --exclude-from=.releaseignore /tmp/release
-          tree /tmp/release
           zip -r ${{ github.event.repository.name }}.zip /tmp/release
           sha512sum ${{ github.event.repository.name }}.zip > ${{ github.event.repository.name }}.sha512sums.txt
+          tree /tmp/release
