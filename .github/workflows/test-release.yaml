@@ -9,14 +9,18 @@ permissions:
   contents: write
 
 jobs:
-  build:
+  publish:
+    if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
       - name: create zip
         run: |
-          zip -r ${{ github.event.repository.name }}.zip ./TestData
+          rm -rf /tmp/release
+          mkdir /tmp/release
+          rsync . -rv --excluse-from=.releaseignore /tmp/release
+          zip -r ${{ github.event.repository.name }}.zip /tmp/release
           sha512sum ${{ github.event.repository.name }}.zip > ${{ github.event.repository.name }}.sha512sums.txt
       - name: Release
         uses: softprops/action-gh-release@v1
