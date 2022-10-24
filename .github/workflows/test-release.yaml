@@ -20,7 +20,7 @@ jobs:
           rm -rf /tmp/release
           mkdir /tmp/release
           rsync . -rv --exclude-from=.releaseignore /tmp/release
-          zip -r ${{ github.event.repository.name }}.zip /tmp/release
+          zip -rD ${{ github.event.repository.name }}.zip /tmp/release
           sha512sum ${{ github.event.repository.name }}.zip > ${{ github.event.repository.name }}.sha512sums.txt
       - name: Release
         uses: softprops/action-gh-release@v1
