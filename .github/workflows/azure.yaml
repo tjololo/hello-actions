@@ -1,0 +1,22 @@
+name: Test azurecli
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build
+    
+    steps:
+      - name: Test cli
+        if: always()
+        run: |
+          which az
+          which azcopy
+      - name: test azure cli
+        if: always()
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            which azcopy
+          
