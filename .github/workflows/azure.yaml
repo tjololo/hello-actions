@@ -13,10 +13,6 @@ jobs:
         run: |
           which az
           which azcopy
-      - name: test azure cli
-        if: always()
-        uses: azure/CLI@v1
-        with:
-          inlineScript: |
-            which azcopy
+          az --version
+          azcopy --version
           
