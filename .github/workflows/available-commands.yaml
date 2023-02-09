@@ -1,0 +1,18 @@
+name: "Integrationtests"
+
+on:
+  workflow-dispatch:
+
+jobs:
+  integrationtests:
+    name: Test commands
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      name: check availability
+      run: |
+        which kubectl
+        which kind
+        
