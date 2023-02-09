@@ -1,4 +1,4 @@
-name: "Integrationtests"
+name: "Test commands"
 
 on:
   workflow_dispatch:
