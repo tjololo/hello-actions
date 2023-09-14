@@ -40,4 +40,4 @@ jobs:
         with:
           azcliversion: 2.30.0
           inlineScript: |
-            ./prune-cache.sh --path "/testblob/demo.json" --path "/testblob/unstable.json"
+            ./.github/scripts/prune-cache.sh --path "/testblob/demo.json" --path "/testblob/unstable.json"
