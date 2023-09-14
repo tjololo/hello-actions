@@ -6,7 +6,7 @@ on:
       - v*.*.*
 
 env:
-  working_dir: scripts
+  working_dir: .github/scripts
 
 permissions:
   id-token: write
@@ -31,7 +31,13 @@ jobs:
           subscription-id: ${{ secrets.AZURE_OIDC_SUBSCRIPTION_ID }}
       - name: Purge cache
         uses: azure/CLI@v1
+        env:
+          FD_SUBSCRIPTION: ${{ secrets.AZURE_OIDC_SUBSCRIPTION_ID }}
+          FD_RESOURCEGROUP: ${{ secrets.FG_RG }}
+          FD_PROFILE: ${{ secrets.FD_PROFILE }}
+          FD_ENDPOINT: ${{ secrets.FD_ENDPOINT }}
+          FD_DOMAIN: ${{ secrets.FD_DOMAIN }}
         with:
           azcliversion: 2.30.0
           inlineScript: |
-            az account list -o none
+            ./prune-cache.sh --path "/testblob/demo.json" --path "/testblob/unstable.json"
