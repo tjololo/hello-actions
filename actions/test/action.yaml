@@ -34,5 +34,5 @@ runs:
           
           // 2. Set the output variable
           const fs = require('fs');
-          fs.writeFileSync('${{ inputs.tf_actions_working_dir }}/summary.md', output);
+          fs.writeFileSync('${{ inputs.working_directory }}/summary.md', output);
           core.setOutput('summary', output);
