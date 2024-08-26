@@ -20,10 +20,10 @@ runs:
       id: action_summary
       uses: actions/github-script@v7
       if: always()
+      working-directory: ${{ inputs.working_directory }}
       env:
         VALIDATE_OUTPUT: ${{ steps.validate.outputs.stdout }}
         PLAN_OUTPUT: ${{ steps.plan.outputs.stdout }}
-      working-directory: ${{ inputs.working_directory }}
       with:
         github-token: ${{ inputs.gh_token }}
         script: |
