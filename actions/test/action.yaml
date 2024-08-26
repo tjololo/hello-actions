@@ -28,10 +28,13 @@ runs:
         script: |
           // 1. Prep the output
           const output = `# Summary
-          
           Testing a summary`;
           
           // 2. Set the output variable
           const fs = require('fs');
           fs.writeFileSync('${{ inputs.working_directory }}/summary.md', output);
           core.setOutput('summary', output);
+      - name: Write the step summary
+        if: always()
+        working-directory: ${{ inputs.working_directory }}
+        run: cat summary.md >> $GITHUB_STEP_SUMMARY
