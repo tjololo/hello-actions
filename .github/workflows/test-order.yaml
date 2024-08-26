@@ -1,0 +1,17 @@
+name: Test Composite
+
+on:
+  workflow_dispatch:
+
+
+jobs:
+  comp:
+    name: Composite
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo
+        run: echo "Hello"
+      - name: Terraform Initialize
+        uses: tjololo/hello-actions/actions/test@main
+        with:
+          gh_token: ${{ secrets.GITHUB_TOKEN }}
