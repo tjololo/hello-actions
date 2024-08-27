@@ -1,0 +1,24 @@
+name: Tag
+
+on:
+  push:
+    tags:
+      - "*-demo"
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Get version from tags
+        id: version
+        run: |
+          tag=${GITHUB_REF/refs\/tags\//}
+          version=${tag/-demo/}
+          echo version=${version} >> $GITHUB_OUTPUT
+      - name: Print version
+        run: |
+          echo ${{ steps.version.output.version }}
