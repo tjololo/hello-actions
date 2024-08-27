@@ -22,7 +22,10 @@ runs:
       working-directory: ${{ inputs.working_directory }}
       run: |
         #content=$(cat largefile-lines.txt)
-        echo "out=$(cat largefile-lines.txt)" >> $GITHUB_OUTPUT
+        echo "out<<'EOF'" >> $GITHUB_OUTPUT
+        cat largefile-lines.txt >> $GITHUB_OUTPUT
+        echo >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
     - name: generate random delimiter
       shell: bash
       working-directory: ${{ inputs.working_directory }}
