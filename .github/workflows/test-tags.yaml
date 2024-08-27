@@ -24,4 +24,4 @@ jobs:
       - name: Print version
         shell: bash
         run: |
-          echo "${{ steps.getv.outpust.version }}"
+          echo "${{ steps.getv.outputs.version }}"
