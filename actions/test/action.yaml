@@ -30,7 +30,7 @@ runs:
           // 1. Prep the output
           const output = `# Summary
           Testing a summary`;
-          
+          console.log("test")
           // 2. Set the output variable
           const fs = require('fs');
           fs.writeFileSync('${{ inputs.working_directory }}/summary.md', output);
