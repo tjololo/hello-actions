@@ -1,11 +1,11 @@
-name: Tag
+name: Output test
 
 on:
   workflow_dispatch:
 
 
 jobs:
-  release:
+  output:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,5 +21,5 @@ jobs:
       - name: Print version
         shell: bash
         run: |
-          echo ${{ steps.out.output.var }}
-          echo ${{ steps.out.output.test }}
+          echo ${{ steps.out.outputs.var }}
+          echo ${{ steps.out.outputs.test }}
