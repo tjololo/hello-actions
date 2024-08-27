@@ -19,8 +19,10 @@ jobs:
         id: version
         run: |
           tag=${GITHUB_REF/refs\/tags\//}
-          version=${tag/-demo/}
-          echo version=${version} >> $GITHUB_OUTPUT
+          echo "${tag}"
+          version=${tag%-demo}
+          echo "${version}"
+          echo "version=${version}" >> $GITHUB_OUTPUT
       - name: Print version
         run: |
           echo ${{ steps.version.output.version }}
