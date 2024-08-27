@@ -18,11 +18,17 @@ runs:
   steps:
     - name: Generate output
       id: plan
+      shell: bash
+      working-directory: ${{ inputs.working_directory }}
       run: |
         echo "out=LoremIpsum osv..." >> $GITHUB_OUTPUT
     - name: generate random delimiter
+      shell: bash
+      working-directory: ${{ inputs.working_directory }}
       run: echo "DELIMITER=$(uuidgen)" >> $GITHUB_ENV
     - name: truncate output
+      shell: bash
+      working-directory: ${{ inputs.working_directory }}
       run: |
         plan=$(cat <<${{ env.DELIMITER }}
         ${{ format('{0}', steps.plan.outputs.out) }}
