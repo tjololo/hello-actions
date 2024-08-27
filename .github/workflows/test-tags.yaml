@@ -17,10 +17,7 @@ jobs:
         shell: bash
         run: |
           tag=${GITHUB_REF/refs\/tags\//}
-          echo "${tag}"
-          version=${tag%-demo}
-          echo "test=${version}"
-          echo "version=$version" >> $GITHUB_OUTPUT
+          echo "version=${tag%-demo}" >> $GITHUB_OUTPUT
       - name: Print version
         shell: bash
         run: |
