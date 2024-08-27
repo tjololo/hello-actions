@@ -21,7 +21,8 @@ runs:
       shell: bash
       working-directory: ${{ inputs.working_directory }}
       run: |
-        echo "out=LoremIpsum osv..." >> $GITHUB_OUTPUT
+        content=$(cat largefile-lines.txt)
+        echo "out=${content}" >> $GITHUB_OUTPUT
     - name: generate random delimiter
       shell: bash
       working-directory: ${{ inputs.working_directory }}
