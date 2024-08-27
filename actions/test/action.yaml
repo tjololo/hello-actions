@@ -34,7 +34,7 @@ runs:
         ${{ format('{0}', steps.plan.outputs.out) }}
         ${{ env.DELIMITER }}
         )
-        plan=$(echo "${plan} | grep -v 'Refreshing state')
+        plan=$(echo "${plan}" | grep -v 'Refreshing state')
         echo "PLAN<<${{ env.DELIMITER }}" >> $GITHUB_ENV
         echo '[maybe truncated]' >> $GITHUB_ENV
         tail --bytes=10000 <<'${{ env.DELIMITER }}' >> $GITHUB_ENV
