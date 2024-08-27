@@ -30,17 +30,17 @@ runs:
       shell: bash
       working-directory: ${{ inputs.working_directory }}
       run: |
-        plan=$(cat <<${{ env.DELIMITER }}
+        plan=$(cat <<${{ env.DELIMITER }}1
         ${{ format('{0}', steps.plan.outputs.out) }}
-        ${{ env.DELIMITER }}
+        ${{ env.DELIMITER }}1
         )
         plan=$(echo "${plan}" | grep -v 'Refreshing state')
         echo "${plan}"
-        echo "PLAN<<${{ env.DELIMITER }}" >> $GITHUB_ENV
+        echo "PLAN<<${{ env.DELIMITER }}2" >> $GITHUB_ENV
         echo '[maybe truncated]' >> $GITHUB_ENV
         echo "${plan: -65500}" >> $GITHUB_ENV
         echo >> $GITHUB_ENV
-        echo "${{ env.DELIMITER }}" >> $GITHUB_ENV
+        echo "${{ env.DELIMITER }}2" >> $GITHUB_ENV
 
     - name: Terraform Summary
       id: action_summary
