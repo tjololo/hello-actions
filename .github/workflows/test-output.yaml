@@ -1,0 +1,25 @@
+name: Tag
+
+on:
+  workflow_dispatch:
+
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Get version from tags
+        id: out
+        shell: bash
+        run: |
+          var=${GITHUB_REF/refs\//}
+          echo "var=${var}" >> $GITHUB_OUTPUT
+          echo "test=test" >> $GITHUB_OUTPUT
+      - name: Print version
+        shell: bash
+        run: |
+          echo ${{ steps.out.output.var }}
+          echo ${{ steps.out.output.test }}
