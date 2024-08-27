@@ -28,5 +28,5 @@ jobs:
       - name: Print version
         shell: bash
         run: |
-          echo "${{ steps.version.output.test }}""
+          echo "${{ steps.version.output.test }}"
           echo ${{ steps.version.output.tag }}
