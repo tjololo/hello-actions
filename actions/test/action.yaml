@@ -37,9 +37,7 @@ runs:
         plan=$(echo "${plan}" | grep -v 'Refreshing state')
         echo "PLAN<<${{ env.DELIMITER }}" >> $GITHUB_ENV
         echo '[maybe truncated]' >> $GITHUB_ENV
-        tail --bytes=10000 <<'${{ env.DELIMITER }}' >> $GITHUB_ENV
-        ${plan}
-        ${{ env.DELIMITER }}
+        echo "${plan: -65500}" >> $GITHUB_ENV
         echo >> $GITHUB_ENV
         echo "${{ env.DELIMITER }}" >> $GITHUB_ENV
 
