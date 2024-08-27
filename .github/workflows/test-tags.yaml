@@ -13,17 +13,19 @@ jobs:
         with:
           fetch-depth: 0
       - name: Get version from tags
-        id: version
+        id: getv
         shell: bash
         run: |
           tag=${GITHUB_REF/refs\/tags\//}
           echo "${tag}"
           version=${tag%-demo}
           echo "test=${version}"
-          echo "test=$version" >> $GITHUB_OUTPUT
-          echo "tag=$tag" >> $GITHUB_OUTPUT
+          echo "version=$version" >> $GITHUB_OUTPUT
+          echo "TAG=$tag" >> $GITHUB_OUTPUT
+          echo "test=test" >> $GITHUB_OUTPUT
       - name: Print version
         shell: bash
         run: |
-          echo "${{ steps.version.output.test }}"
-          echo ${{ steps.version.output.tag }}
+          echo "${{ steps.getv.output.version }}"
+          echo ${{ steps.getv.output.TAG }}
+          echo ${{ steps.getv.output.test }}
