@@ -23,7 +23,8 @@ jobs:
           echo "${tag}"
           version=${tag%-demo}
           echo "test=${version}"
-          echo "test=${version}" >> $GITHUB_OUTPUT
+          echo "test=$version" >> $GITHUB_OUTPUT
+          echo "tag=$tag" >> $GITHUB_OUTPUT
       - name: Print version
         run: |
           echo ${{ steps.version.output.test }}
