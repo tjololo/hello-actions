@@ -7,14 +7,17 @@ body:
   - type: dropdown
     id: type
     attributes:
-      label: Types
+      label: Link to documentation
       description: Type of maintenance task
       options:
         - "[Terraform](terraform.io)"
-        - 2 [Golang](go.dev)
-        - 3 [Demo](exmaple.io)
+        - "[Golang](go.dev)"
+        - "[Demo](exmaple.io)"
+        - "Other see description"
+      render: markdown
   - type: textarea
     id: description
     attributes:
       label: Description
       description: More description
+      render: markdown
