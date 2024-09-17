@@ -1,0 +1,20 @@
+name: Maintenance
+description: Maintenance task.
+title: "[Maintenance]: "
+labels: ["chore"]
+projects: ["tjololo/3"]
+body:
+  - type: dropdown
+    id: type
+    attributes:
+      label: Types
+      description: Type of maintenance task
+      options:
+        - [Terraform](terraform.io)
+        - [Golang](go.dev)
+        - [Demo](exmaple.io)
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: More description
