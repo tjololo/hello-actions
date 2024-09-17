@@ -10,9 +10,9 @@ body:
       label: Types
       description: Type of maintenance task
       options:
-        - [Terraform](terraform.io)
-        - [Golang](go.dev)
-        - [Demo](exmaple.io)
+        - "1 [Terraform](terraform.io)"
+        - 2 [Golang](go.dev)
+        - 3 [Demo](exmaple.io)
   - type: textarea
     id: description
     attributes:
