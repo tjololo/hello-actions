@@ -11,11 +11,13 @@ body:
     id: type
     label: Maintenance type
     options:
-      - "[Terraform upgrades Apps](https://pedia.altinn.cloud/altinn-3/ops/patching/terraform/apps/)"
-      - "[Terraform upgrades Platform](https://pedia.altinn.cloud/altinn-3/ops/patching/terraform/platform/)"
+      - "[Terraform upgrades Apps](https://pedia.altinn.cloud/altinn-3/ops/patching/terraform/apps)"
+      - "[Terraform upgrades Platform](https://pedia.altinn.cloud/altinn-3/ops/patching/terraform/platform)"
       - "Other"
+    render: markdown
   - type: textarea
     id: Context
+    label: Context
     attributes:
       label: Context for the task
       description: If this issue/task needs more information or other option was chosen, please give some more context
