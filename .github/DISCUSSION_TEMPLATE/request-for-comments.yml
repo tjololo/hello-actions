@@ -29,8 +29,8 @@ body:
     id: guide-level
     attributes:
       label: Guide-level explanation
-      description: Explain the proposal as if it was already included in the platform and you were teaching it to another member of the team.
-      value: |
+      description: |
+        Explain the proposal as if it was already included in the platform and you were teaching it to another member of the team.
         That generally means:
         
         * Introducing new named concepts.
