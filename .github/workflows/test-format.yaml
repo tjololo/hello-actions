@@ -5,7 +5,7 @@ on:
 
 jobs:
   test:
-    if: github.ref == format('refs/heads/{0}*', 'ma')
+    if: startsWith(github.ref, format('refs/heads/{0}', 'ma'))
     runs-on: ubuntu-latest
     steps:
       - name: Echo
