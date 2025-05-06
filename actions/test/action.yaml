@@ -9,6 +9,11 @@ inputs:
     description: test input
     default: test
     required: true
+  terraform_version:
+    description: The version of Terraform to use.
+    # renovate: datasource=github-release depName=terraform packageName=hashicorp/terraform versioning=loose
+    default: 1.10.0
+    required: true
   gh_token:
     description: GitHub Token
     required: true
