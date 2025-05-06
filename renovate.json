@@ -7,12 +7,12 @@
     {
       "customType": "regex",
       "description": "Update custom dependencies in yaml files",
-      "fileMatch": [
+      "managerFilePatterns": [
         "^.*?.yml$",
         "^.*?.yaml$"
       ],
       "matchStrings": [
-        "datasource=(?<datasource>[a-z-]+?)(?: depName=(?<depName>.+?))? packageName=(?<packageName>.+?)(?: versioning=(?<versioning>[a-z-]+?))?\\s\\S+?:\\S+\\s+\\S+:(?<currentValue>\\S+)\\"
+        "# renovate: datasource=(?<datasource>[a-z-]+?)(?: depName=(?<depName>.+?))? packageName=(?<packageName>.+?)(?: versioning=(?<versioning>[a-z-]+?))?\\s.+?-version=(?<currentValue>.+?)\\s"
       ]
     }
   ]
