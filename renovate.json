@@ -6,7 +6,11 @@
   "customManagers": [
     {
       "customType": "regex",
-      "description": "Update custom dependencies",
+      "description": "Update custom dependencies in yaml files",
+      "fileMatch": [
+        "^.*?.yml$",
+        "^.*?.yaml$"
+      ],
       "matchStrings": [
         "# renovate: datasource=(?<datasource>[a-z-]+?)(?: depName=(?<depName>.+?))? packageName=(?<packageName>.+?)(?: versioning=(?<versioning>[a-z-]+?))?\\s\\S+?:\\S+\\s+\\S+:(?<currentValue>\\S+)\\"
       ]
