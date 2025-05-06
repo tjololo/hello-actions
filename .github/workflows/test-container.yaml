@@ -7,7 +7,7 @@ jobs:
   scan:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4.2.2
     - name: Start test nginx
       run: docker run --rm -d -v $(pwd)/TestData/:/www/data -v $(pwd)/TestData/nginx.conf:/etc/nginx/conf.d/default.conf -p 8080:80 --name nginx-cdn-mock nginx
     - name: verify running container

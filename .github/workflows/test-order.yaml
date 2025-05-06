@@ -12,7 +12,7 @@ jobs:
       - name: Echo
         run: echo "Hello"
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
       - name: Test a composite
         uses: tjololo/hello-actions/actions/test@main
         with:
