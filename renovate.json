@@ -6,11 +6,7 @@
   "customManagers": [
     {
       "customType": "regex",
-      "description": "Update _VERSION variables in Dockerfiles",
-      "managerFilePatterns": [
-        "/(^|/|\\.).*?\\.yaml$/",
-        "/(^|/|\\.).*?\\.yml$/"
-      ],
+      "description": "Update custom dependencies",
       "matchStrings": [
         "# renovate: datasource=(?<datasource>[a-z-]+?)(?: depName=(?<depName>.+?))? packageName=(?<packageName>.+?)(?: versioning=(?<versioning>[a-z-]+?))?\\s\\S+?:\\S+\\s+\\S+:(?<currentValue>\\S+)\\"
       ]
