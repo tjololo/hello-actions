@@ -9,8 +9,8 @@
         "managerFilePatterns": [
           "/(^|/)(workflow-templates|\\.(?:github|gitea|forgejo)/(?:workflows|actions))/.+\\.ya?ml$/",
           "/(^|/)(.*?/)*.*?\\.ya?ml$/",
-          "/(^|/)(.*?/)*.*?\\.sh$/"
-
+          "/(^|/)(.*?/)*.*?\\.sh$/",
+          "/(^|/)(.*?/)*Dockerfile$/"
         ],
         "matchStrings": [
           "# renovate: datasource=(?<datasource>[a-z-]+?)(?: depName=(?<depName>.+?))? packageName=(?<packageName>.+?)(?: versioning=(?<versioning>[a-z-]+?))?\\s+?default: (?<currentValue>.+?)\\s",
