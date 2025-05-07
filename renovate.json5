@@ -15,6 +15,7 @@
       ],
       versioningTemplate: '{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}',
       currentValueTemplate: 'v{{{currentValue}}}',
+      registryUrlTemplate: 'https://github.com'
     },
   ],
 }
