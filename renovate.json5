@@ -1,18 +1,15 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:best-practices"],
+  "extends": ["config:rec"],
   "enabledManagers": [
     "custom.regex"
   ],
   "customManagers": [
     {
       "customType": "regex",
-      "matchStringsStrategy": "any",
       "fileMatch": [
-        "(^|/).+?action\\.ya?ml",
-        "/actions/test/action.yml",
-        "actions/test/action.yml",
-        "./actions/test/action.yml"
+        "(^|/)(workflow-templates|\\.(?:github|gitea|forgejo)/(?:workflows|actions))/.+\\.ya?ml$",
+        "(^|/)actions/test/action\\.ya?ml$"
       ],
       "matchStrings": [
         "# renovate: datasource=(?<datasource>[a-z-]+?)(?: depName=(?<depName>.+?))? packageName=(?<packageName>.+?)(?: versioning=(?<versioning>[a-z-]+?))?\\s+.+?default: (?<currentValue>.+?)\\s"
