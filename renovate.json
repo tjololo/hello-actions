@@ -8,8 +8,8 @@
         "customType": "regex",
         "managerFilePatterns": [
           "/(^|/)(workflow-templates|\\.(?:github|gitea|forgejo)/(?:workflows|actions))/.+\\.ya?ml$/",
-          "/(^|/)(.*?/)*\\.ya?ml$/",
-          "/(^|/)(.*?/)*\\.sh$/"
+          "/(^|/)(.*?/)*.*?\\.ya?ml$/",
+          "/(^|/)(.*?/)*.*?\\.sh$/"
 
         ],
         "matchStrings": [
