@@ -1,15 +1,13 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:best-practices"
-  ],
+  "extends": ["config:best-practices"],
   "customManagers": [
     {
       "customType": "regex",
       "description": "Update custom dependencies in yaml files",
-      "fileMatch": [
-        "/(^|\/|\\.).+?\\.yml$/",
-        "/(^|\/|\\.).+?\\.yaml$/"
+      "managerFilePatterns": [
+        "//(^|/|\\.).+?\\.yml$//",
+        "//(^|/|\\.).+?\\.yaml$//"
       ],
       "matchStrings": [
         "# renovate: datasource=(?<datasource>[a-z-]+?)(?: depName=(?<depName>.+?))? packageName=(?<packageName>.+?)(?: versioning=(?<versioning>[a-z-]+?))?\\s+.+?default: (?<currentValue>.+?)\\s"
