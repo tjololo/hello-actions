@@ -8,7 +8,7 @@
       customType: 'regex',
       managerFilePatterns: [
         '/(^|/)(workflow-templates|\\.(?:github|gitea|forgejo)/(?:workflows|actions))/.+\\.ya?ml$/',
-        '/(^|/)actions/test/action\\.ya?ml$/',
+        '/(^|/)actions/composite/action\\.ya?ml$/',
       ],
       matchStrings: [
         '# renovate: datasource=(?<datasource>[a-z-]+?)(?: depName=(?<depName>.+?))? packageName=(?<packageName>.+?)(?: versioning=(?<versioning>[a-z-]+?))?\\s+.+?default: (?<currentValue>.+?)\\s',
