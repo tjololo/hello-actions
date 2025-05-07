@@ -1,6 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recomended"],
+  "extends": ["config:recommended"],
   "enabledManagers": [
     "custom.regex"
   ],
