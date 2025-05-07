@@ -14,8 +14,7 @@
         '# renovate: datasource=(?<datasource>[a-z-]+?)(?: depName=(?<depName>.+?))? packageName=(?<packageName>.+?)(?: versioning=(?<versioning>[a-z-]+?))?\\s+?default: (?<currentValue>.+?)\\s',
       ],
       versioningTemplate: '{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}',
-      currentValueTemplate: 'v{{{currentValue}}}',
-      registryUrlTemplate: 'https://github.com'
+      currentValueTemplate: 'v{{{currentValue}}}'
     },
   ],
 }
