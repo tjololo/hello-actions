@@ -6,7 +6,10 @@
       "customType": "regex",
       "matchStringsStrategy": "any",
       "fileMatch": [
-        "(^|/).+?action\\.ya?ml"
+        "(^|/).+?action\\.ya?ml",
+        "/actions/test/action.yml",
+        "actions/test/action.yml",
+        "./actions/test/action.yml"
       ],
       "matchStrings": [
         "# renovate: datasource=(?<datasource>[a-z-]+?)(?: depName=(?<depName>.+?))? packageName=(?<packageName>.+?)(?: versioning=(?<versioning>[a-z-]+?))?\\s+.+?default: (?<currentValue>.+?)\\s"
