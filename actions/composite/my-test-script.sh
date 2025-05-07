@@ -1,4 +1,4 @@
-# renovate: datasource=github-tags depName=kubectl packageName=kubernetes/kubectl versioning=semver extractVersion="^kubernetes-(?<version>.*)$"
+# renovate: datasource=github-tags depName=kubectl packageName=kubernetes/kubectl versioning=semver extractVersion=^kubernetes-(?<version>.*)$
 KUBECTL_VERSION="v1.32.1"
 # renovat###e: datasource=deb depName=kubectl packageName=kubectl versioning=semver
 KUBECTL2_VERSION="v1.32.1"
