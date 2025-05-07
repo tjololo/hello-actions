@@ -5,7 +5,7 @@ ARG KUBESEAL_VERSION=0.28.0
 # renovate: datasource=github-releases depName=jsonnet packageName=google/jsonnet versioning=semver
 ARG JSONNET_VERSION=0.20.0
 # renovate: datasource=github-releases depName=k6 packageName=grafana/k6 versioning=semver
-ARG K6_VERSION=0.57.0
+ARG K6_VERSION=0.59.0
 # renovate: datasource=github-releases depName=jsonnet-bundler packageName=jsonnet-bundler/jsonnet-bundler versioning=semver extractVersion=^v(?<version>.*)$
 ARG JB_VERSION=0.5.0
 # TODO: Need more work befor this can be automated
