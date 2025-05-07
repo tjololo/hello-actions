@@ -11,7 +11,7 @@ inputs:
     required: true
   terraform_version:
     description: The version of Terraform to use.
-    # renovate: datasource=github-release depName=hashicorp/terraform packageName=hashicorp/terraform versioning=semver
+    # renovate: datasource=github-release depName=terraform packageName=hashicorp/terraform versioning=semver
     default: 1.10.0
     required: true
   gh_token:
