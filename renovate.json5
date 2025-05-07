@@ -11,7 +11,7 @@
         '/(^|/)actions/composite/action\\.ya?ml$/',
       ],
       matchStrings: [
-        '# renovate: datasource=(?<datasource>[a-z-]+?)(?: depName=(?<depName>.+?))? packageName=(?<packageName>.+?)(?: versioning=(?<versioning>[a-z-]+?))?\s+?default: (?<currentValue>.+?)\s',
+        '# renovate: datasource=(?<datasource>[a-z-]+?)(?: depName=(?<depName>.+?))? packageName=(?<packageName>.+?)(?: versioning=(?<versioning>[a-z-]+?))?\\s+?default: (?<currentValue>.+?)\\s',
       ],
     },
   ],
