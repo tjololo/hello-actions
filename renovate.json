@@ -8,10 +8,13 @@
         "customType": "regex",
         "managerFilePatterns": [
           "/(^|/)(workflow-templates|\\.(?:github|gitea|forgejo)/(?:workflows|actions))/.+\\.ya?ml$/",
-          "/(^|/)actions/composite/action\\.ya?ml$/"
+          "/(^|/)(.*?/)*\\.ya?ml$/",
+          "/(^|/)(.*?/)*\\.sh$/"
+
         ],
         "matchStrings": [
-          "# renovate: datasource=(?<datasource>[a-z-]+?)(?: depName=(?<depName>.+?))? packageName=(?<packageName>.+?)(?: versioning=(?<versioning>[a-z-]+?))?\\s+?default: (?<currentValue>.+?)\\s"
+          "# renovate: datasource=(?<datasource>[a-z-]+?)(?: depName=(?<depName>.+?))? packageName=(?<packageName>.+?)(?: versioning=(?<versioning>[a-z-]+?))?\\s+?default: (?<currentValue>.+?)\\s",
+          "# renovate: datasource=(?<datasource>[a-z-]+?)(?: depName=(?<depName>.+?))? packageName=(?<packageName>.+?)(?: versioning=(?<versioning>[a-z-]+?))?\\s+?.+?_VERSION\\s?=\\s?\"?(?<currentValue>.+?)\"?\\s"
         ],
         "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
       }
