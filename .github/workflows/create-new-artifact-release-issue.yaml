@@ -1,0 +1,48 @@
+name: Create new issue from release
+
+on:
+  release:
+    types: 
+      - published
+
+jobs:
+  create-issue:
+    runs-on: ubuntu-latest
+    if: startsWith(github.event.release.tag_name, 'test-v')
+    steps:
+      - name: Create issue
+        uses: actions/github-script@v7.0.1
+        with:
+          script: |
+            const issueTitle = `Release: ${context.payload.release.tag_name}`;
+            const issueBody = `A new release has been published. Check it out [here](${context.payload.release.html_url})
+            - Release Name: ${context.payload.release.name}
+            - Release Tag: ${context.payload.release.tag_name}
+            - Release URL: ${context.payload.release.html_url}
+            
+            To deploy/promote this release, please comment on this issue with "/deploy <environment>" where <environment> is either "staging" or "prod".
+            To deploy check the checkboxes below:
+            <!-- start-env-list -->
+            - [ ] Deploy to Staging
+            - [ ] Deploy to Production
+            <!-- stop-env-list -->
+            `;
+            // Check if the issue already exists
+            const { data: issues } = await github.issues.listForRepo({
+              ...context.repo,
+              state: 'open',
+              labels: 'release'
+            });
+            const issueExists = issues.some(issue => issue.title === issueTitle);
+            if (issueExists) {
+              console.log(`Issue already exists: ${issueTitle}`);
+              return;
+            }
+            // Create a new issue
+            const response = await github.issues.create({
+              ...context.repo,
+              title: issueTitle,
+              body: issueBody,
+              labels: ['release']
+            });
+            console.log(`Issue created: ${response.data.html_url}`);

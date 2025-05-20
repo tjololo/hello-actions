@@ -1,0 +1,52 @@
+name: Promote release from issue comment
+
+on:
+  issues:
+    types: [edited]
+
+jobs:
+  promote-release:
+    runs-on: ubuntu-latest
+    if: startsWith(github.event.issue.title, 'Release:')
+    steps:
+      - name: Promote release
+        uses: actions/github-script@v7.0.1
+        with:
+          script: |
+            const commentBody = context.payload.comment.body;
+            const environment = commentBody.split(' ')[1];
+            const releaseTag = context.payload.issue.title.split(': ')[1];
+            const releaseVersion = releaseTag.replace('test-v', '');
+            
+            const currentState = context.payload.issue.body;
+            // find the checkboxes in the issue body starting with <!-- start-env-list --> and ending with <!-- stop-env-list -->
+            const startEnvList = currentState.indexOf('<!-- start-env-list -->');
+            const stopEnvList = currentState.indexOf('<!-- stop-env-list -->');
+            const envList = currentState.substring(startEnvList + 22, stopEnvList);
+            const envListLines = envList.split('\n').map(line => line.trim());
+            const envListCheckboxes = envListLines.map(line => {
+              const checkbox = line.split(' ')[0];
+              const env = line.split(' ')[2];
+              return { checkbox, env };
+            });
+            // Old checkboxes
+            const oldState = context.event.changes.body.from;
+            const oldStartEnvList = oldState.indexOf('<!-- start-env-list -->');
+            const oldStopEnvList = oldState.indexOf('<!-- stop-env-list -->');
+            const oldEnvList = oldState.substring(oldStartEnvList + 22, oldStopEnvList);
+            const oldEnvListLines = oldEnvList.split('\n').map(line => line.trim());
+            const oldEnvListCheckboxes = oldEnvListLines.map(line => {
+              const checkbox = line.split(' ')[0];
+              const env = line.split(' ')[2];
+              return { checkbox, env };
+            });
+            // Find checkboxes not checked in the old state
+            const notChecked = oldEnvListCheckboxes.filter(checkbox => checkbox.checkbox === '- [ ]');
+            // Find checkboxes checked in the new state
+            const checked = envListCheckboxes.filter(checkbox => checkbox.checkbox === '- [x]');
+            // Find checkbox not checked in the old state and checked in the new state
+            const notCheckedInOldState = checked.filter(checkbox => {
+              return notChecked.some(oldCheckbox => oldCheckbox.env === checkbox.env);
+            });
+            console.log('Not checked in old state:', notCheckedInOldState);
+        
