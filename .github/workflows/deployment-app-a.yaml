@@ -1,0 +1,31 @@
+name: Deployment A
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - prod
+
+jobs:
+    deploy-staging:
+        runs-on: ubuntu-latest
+        name: Deploy to Staging
+        environment: staging
+        if: ${{ github.event.inputs.environment == 'staging' }}
+        steps:
+          - name: Dummy deploy step
+            run: echo "Deploying to staging environment..."
+    deploy-production:
+        runs-on: ubuntu-latest
+        name: Deploy to Production
+        environment: prod
+        if: ${{ github.event.inputs.environment == 'prod' }}
+        steps:
+          - name: Dummy deploy step
+            run: echo "Deploying to production environment..."
