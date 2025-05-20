@@ -28,7 +28,7 @@ jobs:
             <!-- stop-env-list -->
             `;
             // Check if the issue already exists
-            const { data: issues } = await github.issues.listForRepo({
+            const { data: issues } = await github.rest.issues.listForRepo({
               ...context.repo,
               state: 'open',
               labels: 'release'
@@ -39,7 +39,7 @@ jobs:
               return;
             }
             // Create a new issue
-            const response = await github.issues.create({
+            const response = await github.rest.issues.create({
               ...context.repo,
               title: issueTitle,
               body: issueBody,
