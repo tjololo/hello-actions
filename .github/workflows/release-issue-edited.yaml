@@ -40,7 +40,7 @@ jobs:
             const oldEnvListCheckboxes = oldEnvListLines.map(line => {
               const match = line.match(lineRegex);
               if (match) {
-                const checked = match[1] === 'x' ? '- [x]' : '- [ ]';
+                const checked = match[1] === 'x';
                 const env = match[2];
                 return { env, checkbox: checked };
               }
