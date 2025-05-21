@@ -149,12 +149,23 @@ jobs:
             const existingComment = comments.find(comment => comment.body.startsWith(commentPrefix));
             if (existingComment) {
               console.log('Updating existing comment:', existingComment.id);
-              await github.rest.issues.updateComment({
-                ...context.repo,
-                comment_id: existingComment.id,
-                body: `${commentPrefix} Check it out ${{ steps.create-pr.outputs.pull-request-url }}`
-              });
+              if (${{ steps.create-pr.outputs.pull-request-operation }} == 'closed') {
+                await github.rest.issues.deleteComment({
+                  ...context.repo,
+                  comment_id: existingComment.id
+                });
+              } else {
+                await github.rest.issues.updateComment({
+                  ...context.repo,
+                  comment_id: existingComment.id,
+                  body: `${commentPrefix} Check it out ${{ steps.create-pr.outputs.pull-request-url }}`
+                });
+              }
             } else {
+              if (${{ steps.create-pr.outputs.pull-request-operation }} == 'closed') {
+                console.log('Pull request was closed, not adding comment.');
+                return;
+              }
               await github.rest.issues.createComment({
                 ...context.repo,
                 issue_number: issueNumber,
