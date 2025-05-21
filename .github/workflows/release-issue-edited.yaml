@@ -68,10 +68,8 @@ jobs:
             console.log('Environments to update:', envsToUpdate);
             console.log('Releases config before update:', releasesConfig);
             envsToUpdate.forEach(env => {
-              console.log(releasesConfig[env]);
-              console.log(releasesConfig.env);
               if (releasesConfig[env]) {
-                releasesConfig[env].version = releaseVersion;
+                releasesConfig[env] = releaseVersion;
               }
             });
             // Write the updated config back to the file
