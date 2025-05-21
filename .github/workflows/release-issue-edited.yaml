@@ -30,6 +30,7 @@ jobs:
             });
             // Old checkboxes
             const oldState = context.payload.changes.body.from;
+            console.log('Old state:', oldState);
             const oldStartEnvList = oldState.indexOf('<!-- start-env-list -->');
             const oldStopEnvList = oldState.indexOf('<!-- stop-env-list -->');
             const oldEnvList = oldState.substring(oldStartEnvList + 22, oldStopEnvList);
