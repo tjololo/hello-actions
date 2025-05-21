@@ -69,7 +69,7 @@ jobs:
         with:
           script: |
             const issueTitle = context.payload.issue.title
-            const versionRegex = /OCI Release: (.*?)-v(\d+\.\d+\.\d+)/;
+            const versionRegex = /OCI Release: oci-(.*?)-v(\d+\.\d+\.\d+)/;
             const match = issueTitle.match(versionRegex);
             if (!match) {
               console.log('No version found in release tag:', issueTitle);
@@ -121,7 +121,7 @@ jobs:
           title: 'Update releases config for ${{ steps.update-release.outputs.release-name }} to ${{ steps.update-release.outputs.release-version }}'
           body: 'This pull request updates the releases config file with the new release version.'
           base: main
-          commit-message: 'Update releases config for ${{ steps.update-release.outputs.release-name }} to ${{ steps.update-release.outputs.release-version }}'
+          commit-message: 'Update flux releases config for ${{ steps.update-release.outputs.release-name }} to ${{ steps.update-release.outputs.release-version }}'
           branch: update-releases-config-${{ steps.update-release.outputs.release-name }}-${{ steps.update-release.outputs.release-version }}
           delete-branch: true
           labels: 'release'
