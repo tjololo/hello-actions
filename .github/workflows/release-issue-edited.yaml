@@ -35,11 +35,9 @@ jobs:
             }).filter(Boolean);
             // Old checkboxes
             const oldState = context.payload.changes.body.from;
-            console.log('Old state:', oldState);
             const oldStartEnvList = oldState.indexOf('<!-- start-env-list -->');
             const oldStopEnvList = oldState.indexOf('<!-- stop-env-list -->');
             const oldEnvList = oldState.substring(oldStartEnvList + 23, oldStopEnvList);
-            console.log('Old env list:', oldEnvList);
             const oldEnvListLines = oldEnvList.split('\n').map(line => line.trim());
             const oldEnvListCheckboxes = oldEnvListLines.map(line => {
               const match = line.match(lineRegex);
@@ -51,4 +49,10 @@ jobs:
               return null;
             }).filter(Boolean);
             console.log('Old env list checkboxes:', oldEnvListCheckboxes);
+            console.log('New env list checkboxes:', envListCheckboxes);
+            // List environments newly checked
+            const newCheckedEnvs = envListCheckboxes.filter(env => env.checkbox === true);
+            const oldCheckedEnvs = oldEnvListCheckboxes.filter(env => env.checkbox === true);
+            const newlyCheckedEnvs = newCheckedEnvs.filter(env => !oldCheckedEnvs.some(oldEnv => oldEnv.env === env.env));
+            console.log('Newly checked environments:', newlyCheckedEnvs);
         
