@@ -149,7 +149,7 @@ jobs:
             const existingComment = comments.find(comment => comment.body.startsWith(commentPrefix));
             if (existingComment) {
               console.log('Updating existing comment:', existingComment.id);
-              if (${{ steps.create-pr.outputs.pull-request-operation }} == 'closed') {
+              if ('${{ steps.create-pr.outputs.pull-request-operation }}' == 'closed') {
                 await github.rest.issues.deleteComment({
                   ...context.repo,
                   comment_id: existingComment.id
@@ -162,7 +162,7 @@ jobs:
                 });
               }
             } else {
-              if (${{ steps.create-pr.outputs.pull-request-operation }} == 'closed') {
+              if ('${{ steps.create-pr.outputs.pull-request-operation }}' == 'closed') {
                 console.log('Pull request was closed, not adding comment.');
                 return;
               }
