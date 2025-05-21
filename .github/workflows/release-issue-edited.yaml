@@ -51,13 +51,13 @@ jobs:
               return null;
             }).filter(Boolean);
             // Update releases config file and create new Pull Request
-            const releasesConfigFile = `releases/${releaseName}.json`;
+            const releasesConfigFile = `releases/oci-releases.json`;
             const releasesConfig = require(`./${releasesConfigFile}`);
             // Update environments in releases config file
             envListCheckboxes.forEach(env => {
               if (env.checkbox) {
                 const envName = env.env.toLowerCase();
-                releasesConfig[envName] = releaseVersion;
+                releasesConfig[releaseName][envName] = releaseVersion;
               }
             });
 
@@ -73,3 +73,6 @@ jobs:
           base: main
           commit-message: 'Update releases config for ${{ steps.update-release.outputs.release-name }} to ${{ steps.update-release.outputs.release-version }}'
           branch: update-releases-config-${{ steps.update-release.outputs.release-name }}-${{ steps.update-release.outputs.release-version }}
+          delete-branch: true
+          labels: 'release'
+          sign-commits: true
