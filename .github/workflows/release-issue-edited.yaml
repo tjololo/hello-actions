@@ -36,19 +36,16 @@ jobs:
             const oldEnvList = oldState.substring(oldStartEnvList + 23, oldStopEnvList);
             console.log('Old env list:', oldEnvList);
             const oldEnvListLines = oldEnvList.split('\n').map(line => line.trim());
+            const lineRegex = /- \[([ x])\] Deploy to (.+)$/;
             const oldEnvListCheckboxes = oldEnvListLines.map(line => {
-              const checkbox = line.split(' ')[0];
-              const env = line.split(' ')[2];
-              return { checkbox, env };
+              const match = line.match(lineRegex);
+              if (match) {
+                const checked = match[1] === 'x' ? '- [x]' : '- [ ]';
+                const env = match[2];
+                return { env, checkbox: checked };
+              }
+              return null;
+            }).filter(Boolean);
             });
             console.log('Old env list checkboxes:', oldEnvListCheckboxes);
-            // Find checkboxes not checked in the old state
-            const notChecked = oldEnvListCheckboxes.filter(checkbox => checkbox.checkbox === '- [ ]');
-            // Find checkboxes checked in the new state
-            const checked = envListCheckboxes.filter(checkbox => checkbox.checkbox === '- [x]');
-            // Find checkbox not checked in the old state and checked in the new state
-            const notCheckedInOldState = checked.filter(checkbox => {
-              return notChecked.some(oldCheckbox => oldCheckbox.env === checkbox.env);
-            });
-            console.log('Not checked in old state:', notCheckedInOldState);
         
