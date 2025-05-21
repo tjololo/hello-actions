@@ -152,13 +152,13 @@ jobs:
               await github.rest.issues.updateComment({
                 ...context.repo,
                 comment_id: existingComment.id,
-                body: `${commentPrefix} Check it out [here](${{ steps.create-pr.outputs.pull-request-url }})`
+                body: `${commentPrefix} Check it out ${{ steps.create-pr.outputs.pull-request-url }}`
               });
             } else {
               await github.rest.issues.createComment({
                 ...context.repo,
                 issue_number: issueNumber,
-                body: `${commentPrefix} Check it out [here](${{ steps.create-pr.outputs.pull-request-url }})`
+                body: `${commentPrefix} Check it out ${{ steps.create-pr.outputs.pull-request-url }}`
               });
             }
   retag-release:
