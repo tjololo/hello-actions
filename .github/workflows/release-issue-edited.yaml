@@ -99,7 +99,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e # v7.0.8
         with:
-          title: 'Update releases config'
+          title: 'Update releases config for ${{ steps.update-release.outputs.release-name }} to ${{ steps.update-release.outputs.release-version }}'
           body: 'This pull request updates the releases config file with the new release version.'
           base: main
           commit-message: 'Update releases config for ${{ steps.update-release.outputs.release-name }} to ${{ steps.update-release.outputs.release-version }}'
