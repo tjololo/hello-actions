@@ -64,7 +64,7 @@ jobs:
             const releasesConfigFile = 'releases.json';
             const releasesConfig = require(`./${releasesConfigFile}`);
             // find environment and set version to releaseVersion
-            const envsToUpdate = newlyCheckedEnvs.map(env => env.env);
+            const envsToUpdate = newlyCheckedEnvs.map(env => env.env.toLowerCase());
             envsToUpdate.forEach(env => {
               if (releasesConfig[env]) {
                 releasesConfig[env].version = releaseVersion;
