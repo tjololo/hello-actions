@@ -31,8 +31,7 @@ jobs:
             - Release Tag: ${context.payload.release.tag_name}
             - Release URL: ${context.payload.release.html_url}
             
-            To deploy/promote this release, please comment on this issue with "/deploy <environment>" where <environment> is either "staging" or "prod".
-            To deploy check the checkboxes below:
+            To create a pull request with updated release config file, please check the boxes below:
             <!-- start-env-list -->
             - [ ] Deploy to Staging
             - [ ] Deploy to Production
@@ -59,7 +58,7 @@ jobs:
             console.log(`Issue created: ${response.data.html_url}`);
   create-release-pr:
     runs-on: ubuntu-latest
-    if: github.event_name == 'issues' && github.event.action == 'edited' && startsWith(github.event.issue.title, 'OCI Release:')
+    if: github.event_name == 'issues' && github.event.action == 'edited' && startsWith(github.event.issue.title, 'OCI Release:') && github.event.issue.draft == false && github.event.issue.state == 'open'
     steps:
       - name: Checkout code
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
