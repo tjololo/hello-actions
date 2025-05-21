@@ -67,6 +67,7 @@ jobs:
             const envsToUpdate = newlyCheckedEnvs.map(env => env.env.toLowerCase());
             console.log('Environments to update:', envsToUpdate);
             console.log('Releases config before update:', releasesConfig);
+            const oldReleasesConfig = { ...releasesConfig };
             envsToUpdate.forEach(env => {
               if (releasesConfig[env]) {
                 releasesConfig[env] = releaseVersion;
@@ -76,22 +77,52 @@ jobs:
             const fs = require('fs');
             fs.writeFileSync(releasesConfigFile, JSON.stringify(releasesConfig, null, 2));
             console.log('Updated releases config:', releasesConfig);
-            // Create a new Pull Request
-            /*
-            const { data: pullRequest } = await github.rest.pulls.create({
+            if (JSON.stringify(oldReleasesConfig) === JSON.stringify(releasesConfig)) {
+              console.log('No changes made to releases config.');
+              return;
+            }
+            // Create a new branch and commit the changes
+            const branchName = `update-releases`;
+            const { data: refData } = await github.git.getRef({
               ...context.repo,
-              title: `Update releases config for ${releaseTag}`,
-              head: context.payload.issue.user.login,
-              base: 'main',
-              body: `This Pull Request updates the releases config for ${releaseTag}.\n\nEnvironments updated:\n- ${envsToUpdate.join('\n- ')}`
+              ref: 'heads/main'
             });
-            console.log('Pull Request created:', pullRequest.html_url);
-            // Add a comment to the issue with the Pull Request link
-            const commentBody = `A Pull Request has been created to update the releases config for ${releaseTag}.\n\nPull Request: [${pullRequest.title}](${pullRequest.html_url})`;
-            await github.rest.issues.createComment({
+            const sha = refData.object.sha;
+            await github.git.createRef({
+              ...context.repo,
+              ref: `refs/heads/${branchName}`,
+              sha: sha
+            });
+            // Create a new commit
+            const commitMessage = `Update releases config for ${releaseTag}`;
+            const { data: commitData } = await github.git.createCommit({
+              ...context.repo,
+              message: commitMessage,
+              tree: sha,
+              parents: [sha]
+            });
+            // Update the branch with the new commit
+            await github.git.updateRef({
+              ...context.repo,
+              ref: `heads/${branchName}`,
+              sha: commitData.sha
+            });
+            // Create a new Pull Request
+            const prTitle = `Update releases config for ${releaseTag}`;
+            const prBody = `This PR updates the releases config for ${releaseTag}.\n\nEnvironments updated:\n- ${newlyCheckedEnvs.map(env => env.env).join('\n- ')}`;
+            const { data: prData } = await github.pulls.create({
+              ...context.repo,
+              title: prTitle,
+              body: prBody,
+              head: branchName,
+              base: 'main'
+            });
+            console.log('Pull request created:', prData.html_url);
+            // Add a comment to the issue with the PR link
+            const commentBody = `A new Pull Request has been created to update the releases config for ${releaseTag}.\n\nPull Request: [${prData.title}](${prData.html_url})`;
+            await github.issues.createComment({
               ...context.repo,
               issue_number: context.payload.issue.number,
               body: commentBody
             });
-            */
-        
+            console.log('Comment added to issue:', commentBody);
