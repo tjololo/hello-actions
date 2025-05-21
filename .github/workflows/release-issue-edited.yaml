@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     if: startsWith(github.event.issue.title, 'Release:')
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.2.2
       - name: Promote release
         uses: actions/github-script@v7.0.1
         with:
@@ -54,5 +56,38 @@ jobs:
             const newCheckedEnvs = envListCheckboxes.filter(env => env.checkbox === true);
             const oldCheckedEnvs = oldEnvListCheckboxes.filter(env => env.checkbox === true);
             const newlyCheckedEnvs = newCheckedEnvs.filter(env => !oldCheckedEnvs.some(oldEnv => oldEnv.env === env.env));
-            console.log('Newly checked environments:', newlyCheckedEnvs);
+            if (newlyCheckedEnvs.length === 0) {
+              console.log('No new environments checked.');
+              return;
+            }
+            // Update releases config file and create new Pull Request
+            const releasesConfigFile = 'releases.json';
+            const releasesConfig = require(`./${releasesConfigFile}`);
+            // find environment and set version to releaseVersion
+            const envsToUpdate = newlyCheckedEnvs.map(env => env.env);
+            envsToUpdate.forEach(env => {
+              if (releasesConfig[env]) {
+                releasesConfig[env].version = releaseVersion;
+              }
+            });
+            // Write the updated config back to the file
+            const fs = require('fs');
+            fs.writeFileSync(releasesConfigFile, JSON.stringify(releasesConfig, null, 2));
+            console.log('Updated releases config:', releasesConfig);
+            // Create a new Pull Request
+            const { data: pullRequest } = await github.rest.pulls.create({
+              ...context.repo,
+              title: `Update releases config for ${releaseTag}`,
+              head: context.payload.issue.user.login,
+              base: 'main',
+              body: `This Pull Request updates the releases config for ${releaseTag}.\n\nEnvironments updated:\n- ${envsToUpdate.join('\n- ')}`
+            });
+            console.log('Pull Request created:', pullRequest.html_url);
+            // Add a comment to the issue with the Pull Request link
+            const commentBody = `A Pull Request has been created to update the releases config for ${releaseTag}.\n\nPull Request: [${pullRequest.title}](${pullRequest.html_url})`;
+            await github.rest.issues.createComment({
+              ...context.repo,
+              issue_number: context.payload.issue.number,
+              body: commentBody
+            });
         
