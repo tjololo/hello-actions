@@ -45,6 +45,6 @@ jobs:
                 return { env, checkbox: checked };
               }
               return null;
-            }).filter(Boolean);
+            });
             console.log('Old env list checkboxes:', oldEnvListCheckboxes);
         
