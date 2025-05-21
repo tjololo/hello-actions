@@ -65,7 +65,11 @@ jobs:
             const releasesConfig = require(`./${releasesConfigFile}`);
             // find environment and set version to releaseVersion
             const envsToUpdate = newlyCheckedEnvs.map(env => env.env.toLowerCase());
+            console.log('Environments to update:', envsToUpdate);
+            console.log('Releases config before update:', releasesConfig);
             envsToUpdate.forEach(env => {
+              console.log(releasesConfig[env]);
+              console.log(releasesConfig.env);
               if (releasesConfig[env]) {
                 releasesConfig[env].version = releaseVersion;
               }
@@ -75,6 +79,7 @@ jobs:
             fs.writeFileSync(releasesConfigFile, JSON.stringify(releasesConfig, null, 2));
             console.log('Updated releases config:', releasesConfig);
             // Create a new Pull Request
+            /*
             const { data: pullRequest } = await github.rest.pulls.create({
               ...context.repo,
               title: `Update releases config for ${releaseTag}`,
@@ -90,4 +95,5 @@ jobs:
               issue_number: context.payload.issue.number,
               body: commentBody
             });
+            */
         
