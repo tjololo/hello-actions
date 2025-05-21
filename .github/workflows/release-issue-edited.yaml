@@ -50,34 +50,18 @@ jobs:
               }
               return null;
             }).filter(Boolean);
-            // Old checkboxes
-            const oldState = context.payload.changes.body.from;
-            const oldStartEnvList = oldState.indexOf('<!-- start-env-list -->');
-            const oldStopEnvList = oldState.indexOf('<!-- stop-env-list -->');
-            const oldEnvList = oldState.substring(oldStartEnvList + 23, oldStopEnvList);
-            const oldEnvListLines = oldEnvList.split('\n').map(line => line.trim());
-            const oldEnvListCheckboxes = oldEnvListLines.map(line => {
-              const match = line.match(lineRegex);
-              if (match) {
-                const checked = match[1] === 'x';
-                const env = match[2];
-                return { env, checkbox: checked };
-              }
-              return null;
-            }).filter(Boolean);
-            console.log('Old env list checkboxes:', oldEnvListCheckboxes);
-            console.log('New env list checkboxes:', envListCheckboxes);
-            // List environments newly checked
-            const newCheckedEnvs = envListCheckboxes.filter(env => env.checkbox === true);
-            const oldCheckedEnvs = oldEnvListCheckboxes.filter(env => env.checkbox === true);
-            const newlyCheckedEnvs = newCheckedEnvs.filter(env => !oldCheckedEnvs.some(oldEnv => oldEnv.env === env.env));
-            if (newlyCheckedEnvs.length === 0) {
-              console.log('No new environments checked.');
-              return;
-            }
             // Update releases config file and create new Pull Request
             const releasesConfigFile = `releases/${releaseName}.json`;
             const releasesConfig = require(`./${releasesConfigFile}`);
+            // Update environments in releases config file
+            envListCheckboxes.forEach(env => {
+              if (env.checkbox) {
+                const envName = env.env.toLowerCase();
+                releasesConfig[envName] = releaseVersion;
+              }
+            });
+
+
             // find environment and set version to releaseVersion
             const envsToUpdate = newlyCheckedEnvs.map(env => env.env.toLowerCase());
             console.log('Environments to update:', envsToUpdate);
