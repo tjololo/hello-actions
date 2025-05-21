@@ -138,4 +138,14 @@ jobs:
       - name: Promote release
         run: |
           echo "Promoting release..."
-          # Add your promotion logic here
+          # Read the releases config file and loop through the releases
+          releasesConfigFile="${{ env.RELEASE_FILE }}"
+          releasesConfig=$(cat $releasesConfigFile)
+          for releaseName in $(echo $releasesConfig | jq -r 'keys[]'); do
+            for envName in $(echo $releasesConfig | jq -r ".\"$releaseName\" | keys[]"); do
+              releaseVersion=$(echo $releasesConfig | jq -r ".\"$releaseName\".\"$envName\"")
+              echo "Promoting release $releaseName to version $releaseVersion for environment $envName"
+              echo "retagging ${{ env.RELEASE_TAG_PREFIX}}"-"$releaseName-v$releaseVersion"
+              # Add your promotion logic here
+            done
+          done
