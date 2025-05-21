@@ -81,48 +81,11 @@ jobs:
               console.log('No changes made to releases config.');
               return;
             }
-            // Create a new branch and commit the changes
-            const branchName = `update-releases`;
-            const { data: refData } = await github.rest.git.getRef({
-              ...context.repo,
-              ref: 'heads/main'
-            });
-            const sha = refData.object.sha;
-            await github.rest.git.createRef({
-              ...context.repo,
-              ref: `refs/heads/${branchName}`,
-              sha: sha
-            });
-            // Create a new commit
-            const commitMessage = `Update releases config for ${releaseTag}`;
-            const { data: commitData } = await github.rest.git.createCommit({
-              ...context.repo,
-              message: commitMessage,
-              tree: sha,
-              parents: [sha]
-            });
-            // Update the branch with the new commit
-            await github.rest.git.updateRef({
-              ...context.repo,
-              ref: `heads/${branchName}`,
-              sha: commitData.sha
-            });
-            // Create a new Pull Request
-            const prTitle = `Update releases config for ${releaseTag}`;
-            const prBody = `This PR updates the releases config for ${releaseTag}.\n\nEnvironments updated:\n- ${newlyCheckedEnvs.map(env => env.env).join('\n- ')}`;
-            const { data: prData } = await github.rest.pulls.create({
-              ...context.repo,
-              title: prTitle,
-              body: prBody,
-              head: branchName,
-              base: 'main'
-            });
-            console.log('Pull request created:', prData.html_url);
-            // Add a comment to the issue with the PR link
-            const commentBody = `A new Pull Request has been created to update the releases config for ${releaseTag}.\n\nPull Request: [${prData.title}](${prData.html_url})`;
-            await github.rest.issues.createComment({
-              ...context.repo,
-              issue_number: context.payload.issue.number,
-              body: commentBody
-            });
-            console.log('Comment added to issue:', commentBody);
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4.0.0
+        with:
+          title: 'Update releases config'
+          body: 'This pull request updates the releases config file with the new release version.'
+          base: main
+          commit-message: 'Update releases config'
+          branch: update-releases-config
