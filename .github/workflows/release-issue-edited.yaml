@@ -82,7 +82,7 @@ jobs:
               return;
             }
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v4.0.0
+        uses: peter-evans/create-pull-request@38e0b6e68b4c852a5500a94740f0e535e0d7ba54 # v4.2.4
         with:
           title: 'Update releases config'
           body: 'This pull request updates the releases config file with the new release version.'
