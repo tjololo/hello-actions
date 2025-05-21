@@ -16,16 +16,21 @@ permissions:
   issues: write
   pull-requests: write
 
+env:
+  ISSUE_TITLE_PREFIX: 'OCI Release:'
+  RELEASE_TAG_PREFIX: 'oci-'
+  RELEASE_FILE: 'releases/oci-release.json'
+
 jobs:
   create-issue:
     runs-on: ubuntu-latest
-    if: github.event_name == 'release' && github.event.action == 'created' && startsWith(github.event.release.tag_name, 'oci-')
+    if: github.event_name == 'release' && github.event.action == 'created' && startsWith(github.event.release.tag_name, github.env.RELEASE_TAG_PREFIX)
     steps:
       - name: Create issue
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
         with:
           script: |
-            const issueTitle = `OCI Release: ${context.payload.release.tag_name}`;
+            const issueTitle = `${{ env.ISSUE_TITLE_PREFIX }} ${context.payload.release.tag_name}`;
             const issueBody = `A new release has been published. Check it out [here](${context.payload.release.html_url})
             - Release Name: ${context.payload.release.name}
             - Release Tag: ${context.payload.release.tag_name}
@@ -58,7 +63,7 @@ jobs:
             console.log(`Issue created: ${response.data.html_url}`);
   create-release-pr:
     runs-on: ubuntu-latest
-    if: github.event_name == 'issues' && github.event.action == 'edited' && startsWith(github.event.issue.title, 'OCI Release:') && github.event.issue.draft == false && github.event.issue.state == 'open'
+    if: github.event_name == 'issues' && github.event.action == 'edited' && startsWith(github.event.issue.title, github.env.ISSUE_TITLE_PREFIX) && github.event.issue.draft == false && github.event.issue.state == 'open'
     steps:
       - name: Checkout code
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -68,7 +73,7 @@ jobs:
         with:
           script: |
             const issueTitle = context.payload.issue.title
-            const versionRegex = /OCI Release: oci-(.*?)-v(\d+\.\d+\.\d+)/;
+            const versionRegex = /${{ env.ISSUE_TITLE_PREFIX }} ${{ env.RELEASE_TAG_PREFIX }}(.*?)-v(\d+\.\d+\.\d+)/;
             const match = issueTitle.match(versionRegex);
             if (!match) {
               console.log('No version found in release tag:', issueTitle);
@@ -78,7 +83,6 @@ jobs:
             const releaseVersion = match[2];
             core.setOutput('release-name', releaseName);
             core.setOutput('release-version', releaseVersion);
-            console.log('Release version:', releaseVersion);
             
             const currentState = context.payload.issue.body;
             // find the checkboxes in the issue body starting with <!-- start-env-list --> and ending with <!-- stop-env-list -->
@@ -97,7 +101,7 @@ jobs:
               return null;
             }).filter(Boolean);
             // Update releases config file and create new Pull Request
-            const releasesConfigFile = `releases/oci-releases.json`;
+            const releasesConfigFile = `${{ env.RELEASE_FILE }}`;
             const releasesConfig = require(`./${releasesConfigFile}`);
             // Update environments in releases config file
             envListCheckboxes.forEach(env => {
