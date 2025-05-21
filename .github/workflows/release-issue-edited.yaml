@@ -61,25 +61,10 @@ jobs:
               }
             });
 
-
-            // find environment and set version to releaseVersion
-            const envsToUpdate = newlyCheckedEnvs.map(env => env.env.toLowerCase());
-            console.log('Environments to update:', envsToUpdate);
-            console.log('Releases config before update:', releasesConfig);
-            const oldReleasesConfig = { ...releasesConfig };
-            envsToUpdate.forEach(env => {
-              if (releasesConfig[env]) {
-                releasesConfig[env] = releaseVersion;
-              }
-            });
             // Write the updated config back to the file
             const fs = require('fs');
             fs.writeFileSync(releasesConfigFile, JSON.stringify(releasesConfig, null, 2));
             console.log('Updated releases config:', releasesConfig);
-            if (JSON.stringify(oldReleasesConfig) === JSON.stringify(releasesConfig)) {
-              console.log('No changes made to releases config.');
-              return;
-            }
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e # v7.0.8
         with:
