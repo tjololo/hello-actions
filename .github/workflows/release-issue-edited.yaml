@@ -102,5 +102,5 @@ jobs:
           title: 'Update releases config'
           body: 'This pull request updates the releases config file with the new release version.'
           base: main
-          commit-message: 'Update releases config'
+          commit-message: 'Update releases config for ${{ steps.update-release.outputs.release-name }} to ${{ steps.update-release.outputs.release-version }}'
           branch: update-releases-config-${{ steps.update-release.outputs.release-name }}-${{ steps.update-release.outputs.release-version }}
