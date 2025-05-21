@@ -145,7 +145,7 @@ jobs:
             for envName in $(echo $releasesConfig | jq -r ".\"$releaseName\" | keys[]"); do
               releaseVersion=$(echo $releasesConfig | jq -r ".\"$releaseName\".\"$envName\"")
               echo "Promoting release $releaseName to version $releaseVersion for environment $envName"
-              echo "retagging ${{ env.RELEASE_TAG_PREFIX}}"-"$releaseName-v$releaseVersion"
+              echo "retagging ${{ env.RELEASE_TAG_PREFIX}}$releaseName-v$releaseVersion"
               # Add your promotion logic here
             done
           done
