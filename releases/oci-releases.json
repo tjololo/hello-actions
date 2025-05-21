@@ -2,5 +2,8 @@
   "test": {
     "staging": "0.0.2",
     "at_ring2": "0.0.2"
+  },
+  "oci-another": {
+    "staging": "0.0.1"
   }
 }
