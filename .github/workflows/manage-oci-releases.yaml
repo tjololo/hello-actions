@@ -19,7 +19,7 @@ permissions:
 env:
   ISSUE_TITLE_PREFIX: 'OCI Release:'
   RELEASE_TAG_PREFIX: 'oci-'
-  RELEASE_FILE: 'releases/oci-release.json'
+  RELEASE_FILE: 'releases/oci-releases.json'
 
 jobs:
   create-issue:
