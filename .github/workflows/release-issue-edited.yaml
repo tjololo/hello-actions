@@ -21,12 +21,17 @@ jobs:
             // find the checkboxes in the issue body starting with <!-- start-env-list --> and ending with <!-- stop-env-list -->
             const startEnvList = currentState.indexOf('<!-- start-env-list -->');
             const stopEnvList = currentState.indexOf('<!-- stop-env-list -->');
-            const envList = currentState.substring(startEnvList + 22, stopEnvList);
+            const envList = currentState.substring(startEnvList + 23, stopEnvList);
             const envListLines = envList.split('\n').map(line => line.trim());
+            const lineRegex = /- \[([ x])\] Deploy to (.+)$/;
             const envListCheckboxes = envListLines.map(line => {
-              const checkbox = line.split(' ')[0];
-              const env = line.split(' ')[2];
-              return { checkbox, env };
+              const match = line.match(lineRegex);
+              if (match) {
+                const checked = match[1] === 'x';
+                const env = match[2];
+                return { env, checkbox: checked };
+              }
+              return null;
             });
             // Old checkboxes
             const oldState = context.payload.changes.body.from;
@@ -36,7 +41,6 @@ jobs:
             const oldEnvList = oldState.substring(oldStartEnvList + 23, oldStopEnvList);
             console.log('Old env list:', oldEnvList);
             const oldEnvListLines = oldEnvList.split('\n').map(line => line.trim());
-            const lineRegex = /- \[([ x])\] Deploy to (.+)$/;
             const oldEnvListCheckboxes = oldEnvListLines.map(line => {
               const match = line.match(lineRegex);
               if (match) {
