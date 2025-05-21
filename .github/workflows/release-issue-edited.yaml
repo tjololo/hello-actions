@@ -13,10 +13,9 @@ jobs:
         uses: actions/github-script@v7.0.1
         with:
           script: |
-            const commentBody = context.payload.comment.body;
-            const environment = commentBody.split(' ')[1];
             const releaseTag = context.payload.issue.title.split(': ')[1];
             const releaseVersion = releaseTag.replace('test-v', '');
+            console.log('Release version:', releaseVersion);
             
             const currentState = context.payload.issue.body;
             // find the checkboxes in the issue body starting with <!-- start-env-list --> and ending with <!-- stop-env-list -->
@@ -30,7 +29,7 @@ jobs:
               return { checkbox, env };
             });
             // Old checkboxes
-            const oldState = context.event.changes.body.from;
+            const oldState = context.payload.changes.body.from;
             const oldStartEnvList = oldState.indexOf('<!-- start-env-list -->');
             const oldStopEnvList = oldState.indexOf('<!-- stop-env-list -->');
             const oldEnvList = oldState.substring(oldStartEnvList + 22, oldStopEnvList);
