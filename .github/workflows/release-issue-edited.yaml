@@ -33,6 +33,7 @@ jobs:
             const oldStartEnvList = oldState.indexOf('<!-- start-env-list -->');
             const oldStopEnvList = oldState.indexOf('<!-- stop-env-list -->');
             const oldEnvList = oldState.substring(oldStartEnvList + 22, oldStopEnvList);
+            console.log('Old env list:', oldEnvList);
             const oldEnvListLines = oldEnvList.split('\n').map(line => line.trim());
             const oldEnvListCheckboxes = oldEnvListLines.map(line => {
               const checkbox = line.split(' ')[0];
