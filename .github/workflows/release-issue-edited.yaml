@@ -76,7 +76,7 @@ jobs:
               return;
             }
             // Update releases config file and create new Pull Request
-            const releasesConfigFile = 'releases.json';
+            const releasesConfigFile = 'releases/${releaseName}.json';
             const releasesConfig = require(`./${releasesConfigFile}`);
             // find environment and set version to releaseVersion
             const envsToUpdate = newlyCheckedEnvs.map(env => env.env.toLowerCase());
