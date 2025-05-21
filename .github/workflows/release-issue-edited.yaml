@@ -88,7 +88,7 @@ jobs:
               ref: 'heads/main'
             });
             const sha = refData.object.sha;
-            await github.git.createRef({
+            await github.rest.git.createRef({
               ...context.repo,
               ref: `refs/heads/${branchName}`,
               sha: sha
@@ -102,7 +102,7 @@ jobs:
               parents: [sha]
             });
             // Update the branch with the new commit
-            await github.git.rest.updateRef({
+            await github.rest.git.updateRef({
               ...context.repo,
               ref: `heads/${branchName}`,
               sha: commitData.sha
@@ -120,7 +120,7 @@ jobs:
             console.log('Pull request created:', prData.html_url);
             // Add a comment to the issue with the PR link
             const commentBody = `A new Pull Request has been created to update the releases config for ${releaseTag}.\n\nPull Request: [${prData.title}](${prData.html_url})`;
-            await github.issues.createComment({
+            await github.rest.issues.createComment({
               ...context.repo,
               issue_number: context.payload.issue.number,
               body: commentBody
