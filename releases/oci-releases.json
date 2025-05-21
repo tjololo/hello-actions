@@ -1,7 +1,8 @@
 {
   "test": {
     "staging": "0.0.5",
-    "at_ring2": "0.0.2"
+    "at_ring2": "0.0.2",
+    "production": "0.0.5"
   },
   "another": {
     "staging": "0.0.1",
