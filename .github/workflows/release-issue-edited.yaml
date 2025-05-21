@@ -46,6 +46,5 @@ jobs:
               }
               return null;
             }).filter(Boolean);
-            });
             console.log('Old env list checkboxes:', oldEnvListCheckboxes);
         
