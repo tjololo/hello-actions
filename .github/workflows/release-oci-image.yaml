@@ -28,7 +28,7 @@ jobs:
           fetch-depth: 0
       - name: Build and push artifacts with commit sha tag
         env:
-          REGISTRY: oci-registry.azurecr.io
+          REGISTRY: oci-repo.azurecr.io
         run: |
           echo '### Check if there are any changes in ./${{ env.OCI_ROOT_DIR }}/ folder'
           OCI_FILES=$(git diff-tree --no-commit-id --name-only -r HEAD | grep '${{ env.OCI_ROOT_DIR }}/' || true)
@@ -75,7 +75,7 @@ jobs:
             }
       - name: Add release tag to artifacts
         env:
-          REGISTRY: oci-registry.azurecr.io
+          REGISTRY: oci-repo.azurecr.io
         run: |
             echo "Processing artifact source: ./${{env.OCI_ROOT_DIR}}/${{ steps.extract-release.outputs.releaseName }}"
             echo "Pushing artifact to OCI registry: oci://${REGISTRY}/oci/${{ steps.extract-release.outputs.releaseName }}:${{ steps.extract-release.outputs.releaseVersion }}"
