@@ -62,8 +62,8 @@ jobs:
               const releaseVersion = match[2];
               core.setOutput('releaseName', releaseName);
               core.setOutput('releaseVersion', releaseVersion);
-              // Check if the release name corresponds to a folder in ./flux/
-              const releaseFolder = `./flux/${releaseName}`;
+              // Check if the release name corresponds to a folder in ./${{ env.OCI_ROOT_DIR }}/
+              const releaseFolder = `./${{ env.OCI_ROOT_DIR }}/${releaseName}`;
               const fs = require('fs');
               if (!fs.existsSync(releaseFolder)) {
                 core.setFailed(`Release folder does not exist: ${releaseFolder}`);
