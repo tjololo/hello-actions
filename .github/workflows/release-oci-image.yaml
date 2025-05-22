@@ -1,4 +1,4 @@
-name: Build Flux Artifact
+name: Build OCI Artifact
 
 on:
   push:
