@@ -8,6 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: tjololo/hello-actions/actions/composite@39c6fcda20078d6031935ab52176328574f5f399 # composite-v0.0.1
+      uses: tjololo/hello-actions/actions/composite@a4dfe6c039ba65b4b60e8766bea84e0328c48a08 # composite-v0.0.1
       with:
         gh_token: ${{ secrets.GITHUB_TOKEN }}
