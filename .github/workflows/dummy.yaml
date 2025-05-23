@@ -9,6 +9,6 @@ jobs:
     steps:
     - name: Checkout
       # renovate: datasource=github-tags depName=hello-actions/actions packageName=tjololo/hello-actions versioning=semver extractVersion=^action-composite-(?<version>.*)$
-      uses: tjololo/hello-actions/actions/composite@39c6fcda20078d6031935ab52176328574f5f399 #regex v0.0.1
+      uses: tjololo/hello-actions/actions/composite@0c74fcbf8c6ab7afd62e9239f212516b0b5bdeba #regex v0.0.2
       with:
         gh_token: ${{ secrets.GITHUB_TOKEN }}
