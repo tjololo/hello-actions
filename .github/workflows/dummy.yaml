@@ -8,4 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
+      # renovate: datasource=github-tags depName=hello-actions/actions packageName=tjololo/hello-actions versioning=loose
       uses: tjololo/hello-actions/actions/composite@39c6fcda20078d6031935ab52176328574f5f399 # action-composite-v0.0.1
+      with:
+        gh_token: ${{ secrets.GITHUB_TOKEN }}
