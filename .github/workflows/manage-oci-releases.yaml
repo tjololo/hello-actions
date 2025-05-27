@@ -72,6 +72,9 @@ jobs:
             // Use graphql to add the issue to a project and move it to a column named "Deploy"
             const issueNumber = response.data.number;
             // Fetch projectID from organization and project number
+            const owner = context.repo.owner;
+            const number = 5; // Replace with your project number
+            console.log(`Fetching project ID for organization: ${owner}, project number: ${number}`);
             const projectQuery = await github.graphql(`
               query {
                 organization(login: "${context.repo.owner}") {
