@@ -32,9 +32,9 @@ jobs:
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
         with:
           script: |
+            const releaseCreator = context.payload.release.author.login;
             const issueTitle = `${{ env.ISSUE_TITLE_PREFIX }} ${context.payload.release.tag_name}`;
             const issueBody = `A new release has been published. Check it out [here](${context.payload.release.html_url})
-            const releaseCreator = context.payload.release.author.login;
             - Release Name: ${context.payload.release.name}
             - Release Tag: ${context.payload.release.tag_name}
             - Release URL: ${context.payload.release.html_url}
@@ -61,13 +61,12 @@ jobs:
               return;
             }
             // Create a new issue
-            console.log(`Assigning issue to ${releaseCreator} directly from context payload ${context.payload.release.author.login}`);
             const response = await github.rest.issues.create({
               ...context.repo,
               title: issueTitle,
               body: issueBody,
               labels: ['release'],
-              assignee: context.payload.release.author.login
+              assignees: [releaseCreator]
             });
             console.log(`Issue created: ${response.data.html_url}`);
             // Use graphql to add the issue to a project and move it to a column named "Deploy"
