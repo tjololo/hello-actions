@@ -15,6 +15,7 @@ permissions:
   contents: write
   issues: write
   pull-requests: write
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.event_name }}-${{github.event.issue.number || github.ref}}
   cancel-in-progress: true
@@ -69,58 +70,6 @@ jobs:
               assignees: [releaseCreator]
             });
             console.log(`Issue created: ${response.data.html_url}`);
-            // Use graphql to add the issue to a project and move it to a column named "Deploy"
-            const issueNumber = response.data.number;
-            // Fetch projectID from organization and project number
-            const owner = context.repo.owner;
-            const number = 5; // Replace with your project number
-            console.log(`Fetching project ID for organization: ${owner}, project number: ${number}`);
-            /*const projectQuery = await github.graphql(`
-              query {
-                organization(login: "${context.repo.owner}") {
-                  projectV2(number: 5) {
-                    id
-                  }
-                }
-              }
-            `);
-            const projectId = projectQuery.organization.projectV2.id;
-            */
-            const projectQuery = await github.graphql(`
-              query {
-                user(login: "${context.repo.owner}") {
-                  projectV2(number: 5) {
-                    id
-                  }
-                }
-              }
-            `);
-            const projectId = projectQuery.user.projectV2.id;
-            console.log(`Project ID: ${projectId}`);
-            const columnName = 'Deploy'; // Replace with your column name
-            const query = `
-              mutation {
-                addProjectV2ItemById(input: {projectId: "${projectId}", contentId: "MDU6SXNzdWU=${issueNumber}"}) {
-                  item {
-                    id
-                  }
-                }
-              }
-            `;
-            const { data: projectData } = await github.graphql(query);
-            console.log(`Issue added to project: ${projectData.addProjectV2ItemById.item.id}`);
-            // Move the issue to the "Deploy" column
-            const moveQuery = `
-              mutation {
-                moveProjectV2ItemToColumn(input: {itemId: "${projectData.addProjectV2ItemById.item.id}", columnId: "${columnName}"}) {
-                  item {
-                    id
-                  }
-                }
-              }
-            `;
-            const { data: moveData } = await github.graphql(moveQuery);
-            console.log(`Issue moved to column: ${moveData.moveProjectV2ItemToColumn.item.id}`);
   create-release-pr:
     runs-on: ubuntu-latest
     if: github.event_name == 'issues' && github.event.action == 'edited' && github.event.issue.draft == false && github.event.issue.state == 'open' && startsWith(github.event.issue.title, 'OCI Release:')
