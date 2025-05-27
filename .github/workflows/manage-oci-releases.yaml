@@ -34,6 +34,7 @@ jobs:
           script: |
             const issueTitle = `${{ env.ISSUE_TITLE_PREFIX }} ${context.payload.release.tag_name}`;
             const issueBody = `A new release has been published. Check it out [here](${context.payload.release.html_url})
+            const releaseCreator = context.payload.release.author.login;
             - Release Name: ${context.payload.release.name}
             - Release Tag: ${context.payload.release.tag_name}
             - Release URL: ${context.payload.release.html_url}
@@ -65,8 +66,36 @@ jobs:
               title: issueTitle,
               body: issueBody,
               labels: ['release']
+              assignees: [releaseCreator]
             });
             console.log(`Issue created: ${response.data.html_url}`);
+            // Use graphql to add the issue to a project and move it to a column named "Deploy"
+            const issueNumber = response.data.number;
+            const projectId = '5'; // Replace with your project ID
+            const columnName = 'Deploy'; // Replace with your column name
+            const query = `
+              mutation {
+                addProjectV2ItemById(input: {projectId: "${projectId}", contentId: "MDU6SXNzdWU=${issueNumber}"}) {
+                  item {
+                    id
+                  }
+                }
+              }
+            `;
+            const { data: projectData } = await github.graphql(query);
+            console.log(`Issue added to project: ${projectData.addProjectV2ItemById.item.id}`);
+            // Move the issue to the "Deploy" column
+            const moveQuery = `
+              mutation {
+                moveProjectV2ItemToColumn(input: {itemId: "${projectData.addProjectV2ItemById.item.id}", columnId: "${columnName}"}) {
+                  item {
+                    id
+                  }
+                }
+              }
+            `;
+            const { data: moveData } = await github.graphql(moveQuery);
+            console.log(`Issue moved to column: ${moveData.moveProjectV2ItemToColumn.item.id}`);
   create-release-pr:
     runs-on: ubuntu-latest
     if: github.event_name == 'issues' && github.event.action == 'edited' && github.event.issue.draft == false && github.event.issue.state == 'open' && startsWith(github.event.issue.title, 'OCI Release:')
