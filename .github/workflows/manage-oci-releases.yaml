@@ -61,12 +61,13 @@ jobs:
               return;
             }
             // Create a new issue
+            console.log(`Assigning issue to ${releaseCreator} directly from context payload ${context.payload.release.author.login}`);
             const response = await github.rest.issues.create({
               ...context.repo,
               title: issueTitle,
               body: issueBody,
               labels: ['release'],
-              assignees: [releaseCreator]
+              assignee: context.payload.release.author.login
             });
             console.log(`Issue created: ${response.data.html_url}`);
             // Use graphql to add the issue to a project and move it to a column named "Deploy"
