@@ -65,7 +65,7 @@ jobs:
               ...context.repo,
               title: issueTitle,
               body: issueBody,
-              labels: ['release']
+              labels: ['release'],
               assignees: [releaseCreator]
             });
             console.log(`Issue created: ${response.data.html_url}`);
