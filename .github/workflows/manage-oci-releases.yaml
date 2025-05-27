@@ -75,7 +75,7 @@ jobs:
             const owner = context.repo.owner;
             const number = 5; // Replace with your project number
             console.log(`Fetching project ID for organization: ${owner}, project number: ${number}`);
-            const projectQuery = await github.graphql(`
+            /*const projectQuery = await github.graphql(`
               query {
                 organization(login: "${context.repo.owner}") {
                   projectV2(number: 5) {
@@ -85,6 +85,17 @@ jobs:
               }
             `);
             const projectId = projectQuery.organization.projectV2.id;
+            */
+            const projectQuery = await github.graphql(`
+              query {
+                user(login: "${context.repo.owner}") {
+                  projectV2(number: 5) {
+                    id
+                  }
+                }
+              }
+            `);
+            const projectId = projectQuery.user.projectV2.id;
             console.log(`Project ID: ${projectId}`);
             const columnName = 'Deploy'; // Replace with your column name
             const query = `
