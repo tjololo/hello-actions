@@ -75,7 +75,7 @@ jobs:
     if: github.event_name == 'issues' && github.event.action == 'edited' && github.event.issue.draft == false && github.event.issue.state == 'open' && startsWith(github.event.issue.title, 'OCI Release:')
     steps:
       - name: Checkout code
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
       - name: Promote release
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
         id: update-release
@@ -182,7 +182,7 @@ jobs:
     if: github.event_name == 'push' && github.event.ref == 'refs/heads/main'
     steps:
       - name: Checkout code
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
       - name: Promote release
         run: |
           echo "Promoting release..."
